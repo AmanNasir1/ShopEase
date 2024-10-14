@@ -1,22 +1,20 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const pool = require('./config/db')
+const connectDB = require("./config/db");
+const userRoutes = require("./router/userRoutes");
+
 const app = express();
 
 dotenv.config();
 
+connectDB();
+
 app.use(express.json());
 
-app.get("/test-db", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()"); // Sample query
-    res.json({ currentTime: result.rows[0] });
-  } catch (error) {
-    console.error("Error connecting to the database", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+app.use("/api/user", userRoutes);
+app.get("/", (req, res) => {
+  res.send("Api is running...");
 });
-
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on port: ${process.env.PORT}`);
 });
