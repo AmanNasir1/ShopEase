@@ -11,6 +11,8 @@ import {Button, Text, TextInput} from 'react-native-paper';
 import {Controller, useForm} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../types/navigation.types';
+import {useMutation} from '@tanstack/react-query';
+import api from '../../../ApiService/api';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 
@@ -26,7 +28,20 @@ const SignUpScreen = ({navigation}: Props) => {
       password: '',
     },
   });
-  const onSubmit = (data: any) => console.log(data);
+
+  const {mutateAsync: signUp, isPending: isCreatingUser} = useMutation({
+    mutationFn: api.signUp,
+    onSuccess: data => {
+      console.log('User signed up successfully:', data);
+      navigation.navigate('SignIn');
+    },
+    onError: error => {
+      console.error('Error signing up:', error);
+    },
+  });
+
+  const onSubmit = (data: any) => signUp(data);
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
@@ -155,6 +170,7 @@ const SignUpScreen = ({navigation}: Props) => {
               )}
             </View>
             <Button
+              loading={isCreatingUser}
               labelStyle={tw`text-white text-base`}
               style={tw`bg-[#1a1a1a] p-2 rounded-lg `}
               onPress={handleSubmit(onSubmit)}>

@@ -4,6 +4,9 @@ import SplashScreen from 'react-native-splash-screen';
 import AppNavigator from './src/navigation/AppNavigator';
 import {PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
@@ -11,11 +14,13 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <PaperProvider>
-        <AppNavigator />
-      </PaperProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <PaperProvider>
+          <AppNavigator />
+        </PaperProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 };
 

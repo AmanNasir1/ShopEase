@@ -1,10 +1,19 @@
-import {View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
 import {Button, Text, TextInput} from 'react-native-paper';
 import {Controller, useForm} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../types/navigation.types';
+import SEText from '../../../components/atoms/se-text';
+import {useMutation} from '@tanstack/react-query';
+import api from '../../../ApiService/api';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 
@@ -15,13 +24,22 @@ const SignInScreen = ({navigation}: Props) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      fullName: '',
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  const {mutateAsync: userSignIn, isPending: isLoggedIn} = useMutation({
+    mutationFn: api.signIn,
+    onSuccess: data => {},
+    onError: error => {
+      Alert.alert('Error signing up:', error.message);
+    },
+  });
+
+  const onSubmit = async (data: any) => {
+    await userSignIn(data);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -33,12 +51,12 @@ const SignInScreen = ({navigation}: Props) => {
         showsVerticalScrollIndicator={false}>
         <View style={tw`p-3 flex-1 gap-6 `}>
           <View style={tw`mt-3`}>
-            <Text variant="headlineLarge" style={tw`text-black font-bold`}>
+            <SEText variant="title" style={tw`text-black font-bold`}>
               Login to your account
-            </Text>
-            <Text variant="bodyLarge" style={tw`text-[#808080]`}>
+            </SEText>
+            <SEText variant="subtitle" style={tw`text-[#808080]`}>
               It's great to see you again
-            </Text>
+            </SEText>
           </View>
           <View style={tw`gap-6 mt-3  `}>
             <View>
@@ -119,6 +137,7 @@ const SignInScreen = ({navigation}: Props) => {
             <Button
               labelStyle={tw`text-white text-base`}
               style={tw`bg-[#1a1a1a] p-2 rounded-lg `}
+              loading={isLoggedIn}
               onPress={handleSubmit(onSubmit)}>
               Login
             </Button>
@@ -138,16 +157,16 @@ const SignInScreen = ({navigation}: Props) => {
             </Button>
           </View>
         </View>
-          <View style={tw`flex-row gap-1 justify-center mb-5 `}>
-            <Text style={tw`text-base text-[#808080]`}>
-              Don't have an account?
-            </Text>
-            <Text
-              onPress={() => navigation.navigate('SignUp')}
-              style={tw`text-base underline font-bold text-black`}>
-              Join
-            </Text>
-          </View>
+        <View style={tw`flex-row gap-1 justify-center mb-5 `}>
+          <Text style={tw`text-base text-[#808080]`}>
+            Don't have an account?
+          </Text>
+          <Text
+            onPress={() => navigation.navigate('SignUp')}
+            style={tw`text-base underline font-bold text-black`}>
+            Join
+          </Text>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

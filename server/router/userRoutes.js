@@ -22,12 +22,14 @@ router.post("/login", async (req, res) => {
     }
 
     const isMatch = await user.comparePassword(password);
+    console.log(isMatch);
+    
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid Credentials" });
     }
 
     const token = generateToken(user);
-    res.json({ token });
+    res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
