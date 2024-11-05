@@ -5,6 +5,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import {PaperProvider} from 'react-native-paper';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => {
       <SafeAreaProvider>
         <PaperProvider>
           <AppNavigator />
+          <Toast />
         </PaperProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
