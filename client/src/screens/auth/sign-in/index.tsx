@@ -1,10 +1,4 @@
-import {
-  View,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {View, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
 import {Button, Text, TextInput} from 'react-native-paper';
@@ -14,10 +8,18 @@ import {AuthStackParamList} from '../../../types/navigation.types';
 import SEText from '../../../components/atoms/se-text';
 import {useMutation} from '@tanstack/react-query';
 import api from '../../../ApiService/api';
+import Toast from 'react-native-toast-message';
+import useAuthStore from '../../../store/useAuthStore';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 
+interface SignInResponse {
+  token: string;
+}
+
 const SignInScreen = ({navigation}: Props) => {
+  const setToken = useAuthStore(state => state.setToken);
+
   const {
     control,
     handleSubmit,
@@ -31,13 +33,27 @@ const SignInScreen = ({navigation}: Props) => {
 
   const {mutateAsync: userSignIn, isPending: isLoggedIn} = useMutation({
     mutationFn: api.signIn,
-    onSuccess: data => {},
+    onSuccess: async response => {
+      Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+      });
+      const data = response.data as SignInResponse;
+
+      setToken(data.token);
+    },
+
     onError: error => {
-      Alert.alert('Error signing up:', error.message);
+      console.log('error', error);
+
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: {email: string; password: string}) => {
     await userSignIn(data);
   };
 

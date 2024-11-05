@@ -2091,6 +2091,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@react-native-async-storage/async-storage@npm:2.0.0"
+  dependencies:
+    merge-options: ^3.0.4
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.65 <1.0
+  checksum: 7007a411f13988594a3f9b5ebb29f1554ab65ff2bd90814fa8b125fa68b69c431bdfcd38769ae2dcb6505aec2bad9296f0a0fa1ac8f123007eda49c826f2d138
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:14.1.0":
   version: 14.1.0
   resolution: "@react-native-community/cli-clean@npm:14.1.0"
@@ -3900,6 +3911,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@react-native-async-storage/async-storage": ^2.0.0
     "@react-native/babel-preset": 0.75.3
     "@react-native/eslint-config": 0.75.3
     "@react-native/metro-config": 0.75.3
@@ -3923,11 +3935,12 @@ __metadata:
     react-native-safe-area-context: ^4.11.0
     react-native-screens: ^3.34.0
     react-native-splash-screen: ^3.3.0
+    react-native-toast-message: ^2.2.1
     react-native-vector-icons: ^10.2.0
     react-test-renderer: 18.3.1
     twrnc: ^4.5.1
     typescript: 5.0.4
-    zustand: ^5.0.0-rc.2
+    zustand: ^5.0.1
   languageName: unknown
   linkType: soft
 
@@ -6029,6 +6042,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: cec9100678b0a9fe0248a81743041ed990c2d4c99f893d935545cfbc42876cbe86d207f3b895700c690ad2fa520e568c44afc1605044b535a7820c1d40e38daa
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -7138,6 +7158,15 @@ __metadata:
   version: 5.2.1
   resolution: "memoize-one@npm:5.2.1"
   checksum: a3cba7b824ebcf24cdfcd234aa7f86f3ad6394b8d9be4c96ff756dafb8b51c7f71320785fbc2304f1af48a0467cbbd2a409efc9333025700ed523f254cb52e3d
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: ^2.1.0
+  checksum: d86ddb3dd6e85d558dbf25dc944f3527b6bacb944db3fdda6e84a3f59c4e4b85231095f58b835758b9a57708342dee0f8de0dffa352974a48221487fe9f4584f
   languageName: node
   linkType: hard
 
@@ -8466,6 +8495,16 @@ __metadata:
   peerDependencies:
     react-native: ">=0.57.0"
   checksum: 14c565d5d4214f55586dcf6f7abd12d99d3e0667f67de3bda7aa24988971567b283a4187fbc0c6269c83b3c21d59d1950335c61bb0780ec2d065e20b3b9199d0
+  languageName: node
+  linkType: hard
+
+"react-native-toast-message@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "react-native-toast-message@npm:2.2.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c6b5d231b3b617b3d3d893023673534fe2cc0c5f32bb5fc4aecfe239e9de2fb9f0e9a4086d776e53daf3bc2376dce16dcec13e1b5cf1554dbf51808695fc2441
   languageName: node
   linkType: hard
 
@@ -10378,9 +10417,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:^5.0.0-rc.2":
-  version: 5.0.0-rc.2
-  resolution: "zustand@npm:5.0.0-rc.2"
+"zustand@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "zustand@npm:5.0.1"
   peerDependencies:
     "@types/react": ">=18.0.0"
     immer: ">=9.0.6"
@@ -10395,6 +10434,6 @@ __metadata:
       optional: true
     use-sync-external-store:
       optional: true
-  checksum: 2c3129a42a044b9b7215da8af9ae22f188cbd30243685ccad8cdb872375f2211ba90c720d8ec0461eb2e0a85a9e42cfc6de008a15bef25aa116dc90ca813a65c
+  checksum: 66eb196c3134957143bd54c4adc24d0baad321a6edfbf495cd571110dfb8c52c92949c3dd246e7ac992791fa81c4947d6431c8724db2b48e26f3f5d30268bec1
   languageName: node
   linkType: hard
