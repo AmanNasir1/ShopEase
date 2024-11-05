@@ -13,6 +13,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../types/navigation.types';
 import {useMutation} from '@tanstack/react-query';
 import api from '../../../ApiService/api';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
 
@@ -23,7 +24,7 @@ const SignUpScreen = ({navigation}: Props) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      fullName: '',
+      name: '',
       email: '',
       password: '',
     },
@@ -32,15 +33,24 @@ const SignUpScreen = ({navigation}: Props) => {
   const {mutateAsync: signUp, isPending: isCreatingUser} = useMutation({
     mutationFn: api.signUp,
     onSuccess: data => {
-      console.log('User signed up successfully:', data);
+      console.log('data===>', data);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Signup Successful',
+      });
       navigation.navigate('SignIn');
     },
     onError: error => {
-      console.error('Error signing up:', error);
+      Toast.show({
+        type: 'error',
+        text1: error.message,
+      });
     },
   });
 
-  const onSubmit = (data: any) => signUp(data);
+  const onSubmit = (data: {name: string; email: string; password: string}) =>
+    signUp(data);
 
   return (
     <KeyboardAvoidingView
@@ -88,10 +98,10 @@ const SignUpScreen = ({navigation}: Props) => {
                     />
                   </>
                 )}
-                name="fullName"
+                name="name"
               />
-              {errors.fullName && (
-                <Text style={tw`text-red-600`}>{errors.fullName.message}</Text>
+              {errors.name && (
+                <Text style={tw`text-red-600`}>{errors.name.message}</Text>
               )}
             </View>
             <View>

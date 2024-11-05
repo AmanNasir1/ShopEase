@@ -23,7 +23,7 @@ if (token) {
   api.setHeader('Authorization', `Bearer ${token}`);
 }
 
-const signUp = (data: {fullName: string; email: string; password: string}) => {
+const signUp = (data: {name: string; email: string; password: string}) => {
   return api.post('/api/user/register', data);
 };
 const signIn = async (data: {email: string; password: string}) => {
@@ -70,7 +70,9 @@ api.addResponseTransform(response => {
   }
 });
 
-export default {
+
+
+  export default {
   signUp,
   signIn,
 };

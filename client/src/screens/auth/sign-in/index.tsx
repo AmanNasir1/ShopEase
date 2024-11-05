@@ -8,7 +8,6 @@ import {AuthStackParamList} from '../../../types/navigation.types';
 import SEText from '../../../components/atoms/se-text';
 import {useMutation} from '@tanstack/react-query';
 import api from '../../../ApiService/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import useAuthStore from '../../../store/useAuthStore';
 
@@ -27,8 +26,8 @@ const SignInScreen = ({navigation}: Props) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      email: 'aman1@gmail.com',
-      password: 'Click123',
+      email: '',
+      password: '',
     },
   });
 

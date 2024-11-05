@@ -7,10 +7,12 @@ interface AuthState {
   setToken: (token: string) => void;
   clearToken: () => void;
   getToken: () => void;
+  user: any;
 }
 
 const useAuthStore = create<AuthState>(set => ({
   token: null,
+  user: null,
   isLoggedIn: false,
   setToken: async (token: string) => {
     await AsyncStorage.setItem('token', token);
@@ -24,6 +26,7 @@ const useAuthStore = create<AuthState>(set => ({
     const token = await AsyncStorage.getItem('token');
     set({token, isLoggedIn: !!token});
   },
+  setUser: (user: any) => set({user}),
 }));
 
 export default useAuthStore;
