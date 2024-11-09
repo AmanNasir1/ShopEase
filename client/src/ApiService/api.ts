@@ -8,71 +8,47 @@ const api = create({
   },
 });
 
-api.axiosInstance.interceptors.request.use(request => {
-  console.log('Starting Request', request);
+api.axiosInstance.interceptors.request.use(async request => {
+  const token = await AsyncStorage.getItem('authToken');
+  if (token) {
+    request.headers['Authorization'] = `Bearer ${token}`;
+  }
   return request;
 });
-
 api.axiosInstance.interceptors.response.use(response => {
   console.log('Response:', response);
   return response;
 });
 
-const token = AsyncStorage.getItem('authToken');
-if (token) {
-  api.setHeader('Authorization', `Bearer ${token}`);
-}
-
-const signUp = (data: {name: string; email: string; password: string}) => {
-  return api.post('/api/user/register', data);
-};
-const signIn = async (data: {email: string; password: string}) => {
-  const response = await api.post('/api/user/login', data);
-  // if (response.ok && response.data) {
-  //   console.log({response});
-
-  //   api.setHeader('Authorization', `Bearer ${response.data}`);
-  //   // Optionally, save token to AsyncStorage or SecureStore for persistence
-  //   await AsyncStorage.setItem('authToken', JSON.stringify(response.data));
-  // }
-  return response;
-};
-
-api.addRequestTransform(async request => {
-  const token = await AsyncStorage.getItem('token');
-  console.log('token===>', token);
-
-  if (token) {
-    request.headers = request.headers || {};
-    request.headers['Authorization'] = `Bearer ${token}`;
-  }
-});
-
 api.addResponseTransform(response => {
   if (!response.ok) {
-    const {status, problem, data} = response;
-    console.log('response=========>', response);
-
-    switch (status) {
-      case 400:
-        throw new Error(data.message);
-      case 401:
-        throw new Error(data.message);
-      case 403:
-        throw new Error(data.message);
-      case 500:
-        throw new Error(data.message);
-      default:
-        throw new Error(
-          data?.message || problem || 'An unknown error occurred.',
-        );
-    }
+    const {status, data, problem} = response;
+    const errorMessage =
+      data?.message || problem || 'An unknown error occurred';
+    throw new Error(errorMessage);
   }
 });
 
+const callApi = async <D, R>({
+  url,
+  method = 'get',
+  data,
+  params,
+}: {
+  url: string;
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  data?: D;
+  params?: Record<string, any>;
+}) => {
+  const response = await api[method]<R>(url, data, {params});
 
+  if (response.ok && response.data) {
+    return response.data;
+  } else {
+    throw new Error(response.problem || 'An error occurred');
+  }
+};
 
-  export default {
-  signUp,
-  signIn,
+export default {
+  callApi,
 };

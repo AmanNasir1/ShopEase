@@ -6,10 +6,10 @@ import {Controller, useForm} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from '../../../types/navigation.types';
 import SEText from '../../../components/atoms/se-text';
-import {useMutation} from '@tanstack/react-query';
-import api from '../../../ApiService/api';
 import Toast from 'react-native-toast-message';
 import useAuthStore from '../../../store/useAuthStore';
+import usePostApi from '../../../hooks/usePostApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignIn'>;
 
@@ -31,16 +31,41 @@ const SignInScreen = ({navigation}: Props) => {
     },
   });
 
-  const {mutateAsync: userSignIn, isPending: isLoggedIn} = useMutation({
-    mutationFn: api.signIn,
-    onSuccess: async response => {
+  // const {mutateAsync: userSignIn, isPending: isLoggedIn} = useMutation({
+  //   mutationFn: api.signIn,
+  //   onSuccess: async response => {
+  //     Toast.show({
+  //       type: 'success',
+  //       text1: 'Login Successful',
+  //     });
+  //     const data = response.data as SignInResponse;
+
+  //     setToken(data.token);
+  //   },
+
+  //   onError: error => {
+  //     console.log('error', error);
+
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: error.message,
+  //     });
+  //   },
+  // });
+
+  const {mutateAsync: signIn, isPending: isLoggedIn} = usePostApi({
+    url: '/api/user/login',
+    showErrorMessage: true,
+    showSuccessMessage: true,
+    onSuccess: async (response: SignInResponse) => {
       Toast.show({
         type: 'success',
         text1: 'Login Successful',
       });
-      const data = response.data as SignInResponse;
+      const token = response.token;
+      console.log('token===>', token);
 
-      setToken(data.token);
+      setToken(token);
     },
 
     onError: error => {
@@ -48,13 +73,13 @@ const SignInScreen = ({navigation}: Props) => {
 
       Toast.show({
         type: 'error',
-        text1: error.message,
+        text1: error,
       });
     },
   });
 
   const onSubmit = async (data: {email: string; password: string}) => {
-    await userSignIn(data);
+    await signIn(data);
   };
 
   return (
