@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import api from '../ApiService/api';
-import { AxiosMethodEnum } from '../constant/general.enum';
+import {AxiosMethodEnum} from '../constant/general.enum';
 
 interface UsePostApiProps<D, R> {
   url: string;

@@ -15,6 +15,7 @@
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
     "@tanstack/react-query": "^5.56.2",
+    "@types/react-native": "^0.72.8",
     "apisauce": "^3.1.0",
     "react": "18.3.1",
     "react-hook-form": "^7.53.0",
@@ -25,7 +26,8 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-toast-message": "^2.2.1",
     "react-native-vector-icons": "^10.2.0",
-    "twrnc": "^4.5.1",
+    "tailwindcss": "^3.4.14",
+    "twrnc": "^4.6.0",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
@@ -38,6 +40,7 @@
     "@react-native/typescript-config": "0.75.3",
     "@tanstack/eslint-plugin-query": "^5.58.1",
     "@types/react": "^18.2.6",
+    "@types/react-native-vector-icons": "^6.4.18",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
