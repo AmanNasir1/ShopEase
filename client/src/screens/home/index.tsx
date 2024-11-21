@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from 'react-native';
 import {Text, IconButton, Searchbar, Chip, Card} from 'react-native-paper';
 import tw from 'twrnc';
@@ -18,48 +19,51 @@ const products = [
     id: '1',
     name: 'Regular Fit Slogan',
     price: '1,190',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
   {
     id: '2',
     name: 'Regular Fit Polo',
     price: '1,100',
     discount: '52%',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
   {
     id: '3',
     name: 'Regular Fit Black',
     price: '1,690',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
   {
     id: '4',
     name: 'Regular Fit V-Neck',
     price: '1,290',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
   {
-    id: '4',
+    id: '5',
     name: 'Regular Fit V-Neck',
     price: '1,290',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
   {
-    id: '4',
+    id: '6',
     name: 'Regular Fit V-Neck',
     price: '1,290',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
   {
-    id: '4',
+    id: '7',
     name: 'Regular Fit V-Neck',
     price: '1,290',
-    image: 'https://via.placeholder.com/150',
+    image: require('../../assets//images/placeholder.png'),
   },
 ];
 
 const HomeScreen = () => {
+  const {width} = Dimensions.get('window');
+  const ITEM_WIDTH = (width - 32) / 2;
+
   return (
     <KeyboardAvoidingView
       style={tw`flex-1`}
@@ -78,9 +82,9 @@ const HomeScreen = () => {
         </View>
 
         <Searchbar
+          value=""
           placeholder="Search for clothes..."
-          value={''}
-          style={tw` bg-transparent border border-solid border-gray-700`}
+          style={tw` bg-transparent border border-solid border-gray-700 rounded-2xl text-black`}
         />
 
         <ScrollView
@@ -90,32 +94,36 @@ const HomeScreen = () => {
           {categories.map(category => (
             <Chip
               key={category}
-              style={tw`mx-1.5 min-w-[50px] min-h-[30px] justify-center items-center bg-white`}>
-              {category}
+              style={tw` mx-1.5 min-w-[50px] min-h-[30px] bg-white border border-solid border-gray-200   `}>
+              <Text style={tw`text-black font-bold text-center `}>
+                {category}
+              </Text>
             </Chip>
           ))}
         </ScrollView>
 
-        {/* Product Grid */}
         <FlatList
           data={products}
           numColumns={2}
+          contentContainerStyle={tw`gap-5 `}
           keyExtractor={item => item.id}
-          style={tw`bg-red-300`}
           renderItem={({item}) => (
-            <Card style={tw`flex-1 m-1`} mode="outlined">
-              <Card.Cover source={{uri: item.image}} style={tw`h-40`} />
+            <Card style={tw`flex-1 m-1 bg-white `} mode="contained">
+              <Card.Cover source={item.image} style={tw`h-40`} />
               <Card.Content>
-                <Text variant="bodyMedium" style={tw`font-semibold `}>
+                <Text variant="bodyMedium" style={tw`font-bold text-black `}>
                   {item.name}
                 </Text>
                 <Text variant="bodySmall" style={tw`text-gray-500 `}>
-                  ₹ {item.price}
+                  $ {item.price}
                 </Text>
               </Card.Content>
               <IconButton
                 icon="heart-outline"
-                style={tw`absolute top-2 right-2`}
+                animated={true}
+                iconColor="black"
+                size={20}
+                style={tw` absolute top-1 right-1 bg-white rounded-md shadow-2xl`}
               />
             </Card>
           )}

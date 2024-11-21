@@ -5,7 +5,8 @@ import AuthNavigator from './AuthNavigator';
 import useAuthStore from '../store/useAuthStore';
 
 export default function AppNavigator() {
-  const isLoggedIn = useAuthStore(state => state.isLoggedIn);
+  const isLoggedIn = true;
+  // const isLoggedIn = useAuthStore(state => state.isLoggedIn);
   console.log(isLoggedIn);
 
   return (
