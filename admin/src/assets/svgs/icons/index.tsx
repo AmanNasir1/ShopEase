@@ -1,3 +1,3 @@
 import DeleteIcon from "./trash-icon.svg?react";
-
-export { DeleteIcon };
+import ShopEaseLogo from "./logo.svg?react";
+export { ShopEaseLogo, DeleteIcon };
