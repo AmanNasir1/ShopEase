@@ -1,11 +1,20 @@
 import { Layout } from "antd";
 import SideBar from "../../organism/sidebar";
 import { Content } from "antd/es/layout/layout";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../organism/header";
 import { cn } from "../../../utils/helper/tailwind-helper";
+import { useEffect } from "react";
 
 function AdminLayout() {
+  const location = useLocation();
+  const pathName = location.pathname;
+  useEffect(() => {
+    const pageTitleFromUrl = pathName.split("/").filter((i) => i !== "")[0];
+    console.log(pageTitleFromUrl);
+
+    document.title = `ShopEase | ${pageTitleFromUrl}`;
+  }, [pathName]);
   const sideBarCollapsed = (collapsed: boolean) => {
     const layout: HTMLElement = document.getElementById("main-layout-sec")!;
 
@@ -41,10 +50,14 @@ function AdminLayout() {
   };
 
   return (
-    <Layout id="main-layout-sec">
+    <Layout
+      id="main-layout-sec"
+      className={cn("h-screen w-screen  overflow-hidden")}
+      hasSider
+    >
       <SideBar sideBarCollapsed={sideBarCollapsed} />
       <Layout>
-        <Content className={cn('min-h-[120px] overflow-auto')}>
+        <Content className={cn("min-h-[120px] overflow-auto")}>
           <Header />
           <Outlet />
         </Content>

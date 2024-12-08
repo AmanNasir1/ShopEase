@@ -2,7 +2,7 @@ import { redirect } from "react-router-dom";
 import AdminDashboard from "../pages/admin/admin-dashboard";
 import Categories from "../pages/admin/categories";
 import Customers from "../pages/admin/customers";
-import Products from "../pages/admin/products";
+import Products from "../pages/admin/product-management";
 import Settings from "../pages/admin/settings";
 import SignInPage from "../pages/auth/sign-in";
 import SignUpPage from "../pages/auth/sign-up";
@@ -31,34 +31,38 @@ export const routes = [
     loader: authCheck,
     children: [
       {
-        path: "/dashboard",
+        path: "dashboard",
         element: <AdminDashboard />,
       },
       {
-        path: "/products",
+        path: "products-management",
         element: <Products />,
       },
       {
-        path: "/category",
+        path: "order-management",
+        element: <Products />,
+      },
+      {
+        path: "category-management",
         element: <Categories />,
       },
       {
-        path: "/customers",
+        path: "customer-management",
         element: <Customers />,
       },
       {
-        path: "/settings",
+        path: "settings",
         element: <Settings />,
       },
     ],
   },
   {
-    path: "/auth/sign-in",
+    path: "auth/sign-in",
     element: <SignInPage />,
     loader: signInCheck,
   },
   {
-    path: "/auth/sign-up",
+    path: "auth/sign-up",
     element: <SignUpPage />,
   },
 ];
